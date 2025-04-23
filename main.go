@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/milan-kovac/config"
 	"github.com/milan-kovac/database"
+	"github.com/milan-kovac/user"
 )
 
 func main() {
@@ -14,6 +15,9 @@ func main() {
 
 	// DATABASE CONFIG
 	database.Connect()
+
+	// REGISTER ROUTES
+	user.UserRoutes(app)
 
 	app.Listen(":" + config.Env.Port)
 
