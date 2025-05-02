@@ -2,17 +2,20 @@ package user
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/milan-kovac/database"
 	"github.com/milan-kovac/middlewares"
 )
 
 func UserRoutes(app *fiber.App) {
-	userController := &UserController{}
+	userRepository := NewUserRepository(database.DB)
+	userService := NewUserService(userRepository)
+	userController := NewUserController(userService)
 
 	userGroup := app.Group("/users")
 
 	userGroup.Post(
 		"/",
-		middlewares.ValidateBody[CreateTaskRequest](),
+		middlewares.ValidateBody[CreateUserRequest](),
 		userController.Create,
 	)
 }
