@@ -18,4 +18,15 @@ func UserRoutes(app *fiber.App) {
 		middlewares.ValidateBody[CreateUserRequest](),
 		userController.Create,
 	)
+
+	userGroup.Get(
+		"/",
+		userController.GetAll,
+	)
+
+	userGroup.Get(
+		"/:id",
+		middlewares.ValidateIdParam(),
+		userController.Get,
+	)
 }
