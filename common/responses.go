@@ -16,6 +16,12 @@ type ErrorDetails struct {
 	Method  string `json:"method"`
 }
 
+type SuccessDetails struct {
+	Code    int         `json:"code"`
+	Message string      `json:"message"`
+	Payload interface{} `json:"payload"`
+}
+
 func ErrorResponse(ctx *fiber.Ctx, code int, err error) error {
 	traceID := uuid.New().String()
 	method := ctx.Method()
@@ -25,6 +31,14 @@ func ErrorResponse(ctx *fiber.Ctx, code int, err error) error {
 		Error:   formatError(err),
 		TraceID: traceID,
 		Method:  method,
+	})
+}
+
+func SuccessResponse(ctx *fiber.Ctx, code int, message string, payload interface{}) error {
+	return ctx.Status(code).JSON(SuccessDetails{
+		Code:    code,
+		Message: message,
+		Payload: payload,
 	})
 }
 
